@@ -5,10 +5,26 @@ using UnityEngine;
 public class BounceBall_Ball : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D rb;
+    
+    private bool IsPlayerWin = false;
+    private bool IsSetActive = false;
 
-    private void Start()
+    private void Update()
     {
-        NewTurn(true);
+        if (IsSetActive) return;
+        
+        IsSetActive = true;
+        
+        if (IsPlayerWin)
+        {
+            rb.AddForce(new Vector2(0, 10f));
+            rb.velocity = new Vector3(0, 10f);
+        }
+        else
+        {
+            rb.AddForce(new Vector2(0, -10f));
+            rb.velocity = new Vector3(0, -10f);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -24,13 +40,17 @@ public class BounceBall_Ball : MonoBehaviour
         if(collision.transform.name == "PlayerGainPoint")
         {
             BounceBall_GameManager.Instance.SetScore(true);
-            NewTurn(true);
+            
+            IsPlayerWin = true;
+            IsSetActive = false;
         }
         
         if(collision.transform.name == "BotGainPoint")
         {
             BounceBall_GameManager.Instance.SetScore(false);
-            NewTurn(false);
+            
+            IsPlayerWin = false;
+            IsSetActive = false;
         }
     }
 
@@ -38,20 +58,5 @@ public class BounceBall_Ball : MonoBehaviour
     {
         rb.AddForce(ForceDirection);
         rb.velocity = ForceDirection * 10;
-    }
-
-    private void NewTurn(bool isPlayerWin)
-    {
-        transform.position = new Vector3(0, 0, 0);
-        if (isPlayerWin)
-        {
-            rb.AddForce(new Vector2(0, 10f));
-            rb.velocity = new Vector3(0, 20f);
-        }
-        else
-        {
-            rb.AddForce(new Vector2(0, -10f));
-            rb.velocity = new Vector3(0, -20f);
-        }
     }
 }

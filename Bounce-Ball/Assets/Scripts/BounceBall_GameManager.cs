@@ -7,8 +7,11 @@ using TMPro;
 public class BounceBall_GameManager : MonoBehaviour
 {
     public static BounceBall_GameManager Instance;
-    public BounceBall_Ball Ball;
+    
+    public Action OnNewGame;
+    public Action OnPauseGame;
     public TextMeshProUGUI ScoreText;
+    
     private int PlayerScores = 0;
     private int BotScores = 0;
 
@@ -27,8 +30,7 @@ public class BounceBall_GameManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(InstantiateBall(10f));
-        StartCoroutine(InstantiateBall(20f));
+        NewGame();
     }
 
     public void SetScore(bool isPlayerWin)
@@ -41,16 +43,39 @@ public class BounceBall_GameManager : MonoBehaviour
         {
             BotScores++;
         }
-
+        
         ScoreText.text = $"<color=#FF0000>{PlayerScores}</color> <color=#000000>-</color> <color=#0000FF>{BotScores} </color>";
 
-        StartCoroutine(InstantiateBall(10f));
-        StartCoroutine(InstantiateBall(20f));
+        PauseGame();
+
+        if (PlayerScores == 7)
+        {
+            Debug.Log("PLAYER WIN");
+            return;
+        }
+        
+        if (BotScores == 7)
+        {
+            Debug.Log("BOT WIN");
+            return;
+        }
+
+        NewGame();
     }
 
-    IEnumerator InstantiateBall(float seconds)
+    public void NewGame()
+    {
+        StartCoroutine(NewGameCountdown(3f));
+    }
+
+    public void PauseGame()
+    {
+        OnPauseGame();
+    }
+
+    IEnumerator NewGameCountdown(float seconds)
     {
         yield return new WaitForSeconds(seconds);
-        Instantiate(Ball, Vector3.zero, Quaternion.identity);
+        OnNewGame();
     }
 }
