@@ -12,17 +12,15 @@ public class BounceBall_Ball : MonoBehaviour
     private void Update()
     {
         if (IsSetActive) return;
-        
+
         IsSetActive = true;
-        
+
         if (IsPlayerWin)
         {
-            rb.AddForce(new Vector2(0, 10f));
             rb.velocity = new Vector3(0, 10f);
         }
         else
         {
-            rb.AddForce(new Vector2(0, -10f));
             rb.velocity = new Vector3(0, -10f);
         }
     }
@@ -31,7 +29,7 @@ public class BounceBall_Ball : MonoBehaviour
     {
         if (collision.transform.name == "Player" || collision.transform.name == "Bot")
         {
-            AddForceWhenCollision((Vector2)transform.position - (Vector2)collision.transform.position);
+            AddVelocityWhenCollision((Vector2)transform.position - (Vector2)collision.transform.position);
         }
     }
 
@@ -40,23 +38,22 @@ public class BounceBall_Ball : MonoBehaviour
         if(collision.transform.name == "PlayerGainPoint")
         {
             BounceBall_GameManager.Instance.SetScore(true);
-            
+
             IsPlayerWin = true;
-            IsSetActive = false;
+            IsSetActive = false;//ERROR
         }
         
         if(collision.transform.name == "BotGainPoint")
         {
             BounceBall_GameManager.Instance.SetScore(false);
-            
+
             IsPlayerWin = false;
-            IsSetActive = false;
+            IsSetActive = false;//ERROR
         }
     }
 
-    private void AddForceWhenCollision(Vector2 ForceDirection)
+    private void AddVelocityWhenCollision(Vector2 VelocityDirection)
     {
-        rb.AddForce(ForceDirection);
-        rb.velocity = ForceDirection * 10;
+        rb.velocity = VelocityDirection * 10;
     }
 }

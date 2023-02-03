@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using TMPro;
 
 public class BounceBall_GameManager : MonoBehaviour
 {
@@ -10,10 +9,9 @@ public class BounceBall_GameManager : MonoBehaviour
     
     public Action OnNewGame;
     public Action OnPauseGame;
-    public TextMeshProUGUI ScoreText;
-    
-    private int PlayerScores = 0;
-    private int BotScores = 0;
+
+    public int PlayerScores = 0;
+    public int BotScores = 0;
 
     private void Awake()
     {
@@ -43,8 +41,6 @@ public class BounceBall_GameManager : MonoBehaviour
         {
             BotScores++;
         }
-        
-        ScoreText.text = $"<color=#FF0000>{PlayerScores}</color> <color=#000000>-</color> <color=#0000FF>{BotScores} </color>";
 
         PauseGame();
 

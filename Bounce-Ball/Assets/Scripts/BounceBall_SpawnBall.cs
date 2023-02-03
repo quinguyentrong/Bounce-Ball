@@ -6,7 +6,7 @@ public class BounceBall_SpawnBall : MonoBehaviour
 {
     [SerializeField] private GameObject Ball;
     
-    private List<GameObject> ObjPooling = new List<GameObject>();
+    public List<GameObject> ObjPooling = new List<GameObject>();
     private int AmountPool = 3;
 
     private void Start()

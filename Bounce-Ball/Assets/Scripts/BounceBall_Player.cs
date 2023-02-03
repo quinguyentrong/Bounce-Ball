@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BounceBall_Player : MonoBehaviour
 {
+    [SerializeField] private PolygonCollider2D SelfPolygonCollider2D;
+    [SerializeField] private SpriteRenderer SelfSpriteRenderer;
     private Vector3 MousePos;
     private bool IsCanScale = false;
 
@@ -23,21 +25,21 @@ public class BounceBall_Player : MonoBehaviour
     {
         MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         transform.position = new Vector3(MousePos.x, -3.5f, 0);
-        
-        if (IsCanScale)
-        {
-            transform.localScale += new Vector3(-0.01f * Time.deltaTime, 0, 0);
-        }
+
+        if (IsCanScale == false) return;
+        SelfSpriteRenderer.size -= new Vector2(0.01f * Time.deltaTime, 0);
+        //SelfPolygonCollider2D.size = SelfSpriteRenderer.size;
+        //ERROR
     }
 
     private void OnNewGame()
     {
         IsCanScale = true;
     }
-    
+
     private void OnPauseGame()
     {
         IsCanScale = false;
-        transform.localScale = new Vector3(0.5f, transform.localScale.y, transform.localScale.z);
+        SelfSpriteRenderer.size = new Vector2(3.48f, 0.8f);
     }
 }
