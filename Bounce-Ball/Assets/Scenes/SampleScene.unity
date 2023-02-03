@@ -1772,6 +1772,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LeftBorder: {fileID: 1563606647}
   RightBorder: {fileID: 387590139}
-  PlayerGaintPoint: {fileID: 1389410204}
-  BotGaintPoint: {fileID: 468984312}
   ScoreText: {fileID: 766753058}

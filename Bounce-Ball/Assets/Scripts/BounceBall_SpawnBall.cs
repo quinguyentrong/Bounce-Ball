@@ -70,6 +70,7 @@ public class BounceBall_SpawnBall : MonoBehaviour
         for (int i = 0; i < ObjPooling.Count; i++)
         {
             ObjPooling[i].SetActive(false);
+            ObjPooling[i].transform.position = new Vector3(0, 0, 0);
         }
     }
 }
