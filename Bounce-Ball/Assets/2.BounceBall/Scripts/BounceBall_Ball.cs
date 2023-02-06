@@ -59,7 +59,6 @@ public class BounceBall_Ball : MonoBehaviour
 
             IsPlayerWin = false;
         }
-        BounceBall_GameManager.Instance.OnSetScore();
     }
 
     private void AddVelocityWhenCollision(Vector2 VelocityDirection)

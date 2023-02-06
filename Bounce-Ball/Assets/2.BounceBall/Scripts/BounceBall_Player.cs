@@ -11,18 +11,22 @@ public class BounceBall_Player : MonoBehaviour
     {
         BounceBall_GameManager.Instance.OnNewTurn += OnNewTurn;
         BounceBall_GameManager.Instance.OnEndTurn += OnEndTurn;
+
+        TouchController.Instance.OnTouching_RedSide += MovePlayer;
     }
 
     private void OnDestroy()
     {
         BounceBall_GameManager.Instance.OnNewTurn -= OnNewTurn;
         BounceBall_GameManager.Instance.OnEndTurn -= OnEndTurn;
+
+        TouchController.Instance.OnTouching_RedSide -= MovePlayer;
     }
 
-    private void Update()
+    private void MovePlayer(Vector2 touchPos)
     {
-        MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        transform.position = new Vector3(MousePos.x, -4.6f, 0);
+        //MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        transform.position = new Vector3(touchPos.x, -4.6f, 0);
     }
 
     private void OnNewTurn()

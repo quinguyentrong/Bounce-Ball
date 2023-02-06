@@ -10,8 +10,8 @@ public class BounceBall_GameManager : MonoBehaviour
     public Action OnNewTurn;
     public Action OnEndTurn;
 
-    public int PlayerScores = 0;
-    public int BotScores = 0;
+    private int PlayerScores = 0;
+    private int BotScores = 0;
 
     private void Awake()
     {
@@ -28,7 +28,11 @@ public class BounceBall_GameManager : MonoBehaviour
 
     private void Start()
     {
-        NewTurn();
+        CustomEventManager.Instance.OnNewGame += StartGame;
+    }
+    private void OnDestroy()
+    {
+        CustomEventManager.Instance.OnNewGame -= StartGame;
     }
 
     public void SetScore(bool isPlayerWin)
@@ -43,28 +47,36 @@ public class BounceBall_GameManager : MonoBehaviour
         }
 
         EndTurn();
+        CustomEventManager.Instance.OnSetScore(new Vector2Int(PlayerScores, BotScores));
+
 
         if (PlayerScores == 7)
         {
-            Debug.Log("PLAYER WIN");
+            CustomEventManager.Instance.OnGameOver(true);
             return;
         }
         
         if (BotScores == 7)
         {
-            Debug.Log("BOT WIN");
+            CustomEventManager.Instance.OnGameOver(false);
             return;
         }
 
         NewTurn();
     }
 
-    public void NewTurn()
+    private void StartGame()
+    {
+        CustomEventManager.Instance.OnSetScore(new Vector2Int(0, 0));
+        NewTurn();
+    }
+
+    private void NewTurn()
     {
         StartCoroutine(NewTurnCountdown(3f));
     }
 
-    public void EndTurn()
+    private void EndTurn()
     {
         OnEndTurn();
     }

@@ -31,6 +31,8 @@ public class BounceBall_Bot : MonoBehaviour
         transform.position += new Vector3((TargerX - transform.position.x), 0, 0).normalized * BotVelocity * Time.deltaTime;
     }
 
+    
+
     private void CheckTarget()
     {
         float maxY = SpawnBall.ObjPooling[0].transform.position.y;
