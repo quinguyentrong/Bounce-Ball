@@ -6,9 +6,9 @@ using System;
 public class BounceBall_GameManager : MonoBehaviour
 {
     public static BounceBall_GameManager Instance;
-    
-    public Action OnNewGame;
-    public Action OnPauseGame;
+    public Action OnSetScore;
+    public Action OnNewTurn;
+    public Action OnEndTurn;
 
     public int PlayerScores = 0;
     public int BotScores = 0;
@@ -28,7 +28,7 @@ public class BounceBall_GameManager : MonoBehaviour
 
     private void Start()
     {
-        NewGame();
+        NewTurn();
     }
 
     public void SetScore(bool isPlayerWin)
@@ -42,7 +42,7 @@ public class BounceBall_GameManager : MonoBehaviour
             BotScores++;
         }
 
-        PauseGame();
+        EndTurn();
 
         if (PlayerScores == 7)
         {
@@ -56,22 +56,22 @@ public class BounceBall_GameManager : MonoBehaviour
             return;
         }
 
-        NewGame();
+        NewTurn();
     }
 
-    public void NewGame()
+    public void NewTurn()
     {
-        StartCoroutine(NewGameCountdown(3f));
+        StartCoroutine(NewTurnCountdown(3f));
     }
 
-    public void PauseGame()
+    public void EndTurn()
     {
-        OnPauseGame();
+        OnEndTurn();
     }
 
-    IEnumerator NewGameCountdown(float seconds)
+    IEnumerator NewTurnCountdown(float seconds)
     {
         yield return new WaitForSeconds(seconds);
-        OnNewGame();
+        OnNewTurn();
     }
 }

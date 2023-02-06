@@ -4,10 +4,20 @@ using UnityEngine;
 
 public class BounceBall_Ball : MonoBehaviour
 {
-    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private Rigidbody2D Rb2D;
     
     private bool IsPlayerWin = false;
     private bool IsSetActive = false;
+
+    private void Start()
+    {
+        BounceBall_GameManager.Instance.OnEndTurn += OnEndTurn;
+    }
+
+    private void OnDestroy()
+    {
+        BounceBall_GameManager.Instance.OnEndTurn -= OnEndTurn;
+    }
 
     private void Update()
     {
@@ -15,13 +25,14 @@ public class BounceBall_Ball : MonoBehaviour
 
         IsSetActive = true;
 
+
         if (IsPlayerWin)
         {
-            rb.velocity = new Vector3(0, 10f);
+            Rb2D.velocity = new Vector3(0, 10f);
         }
         else
         {
-            rb.velocity = new Vector3(0, -10f);
+            Rb2D.velocity = new Vector3(0, -10f);
         }
     }
 
@@ -29,7 +40,7 @@ public class BounceBall_Ball : MonoBehaviour
     {
         if (collision.transform.name == "Player" || collision.transform.name == "Bot")
         {
-            AddVelocityWhenCollision((Vector2)transform.position - (Vector2)collision.transform.position);
+            AddVelocityWhenCollision(((Vector2)transform.position - (Vector2)collision.transform.position).normalized);
         }
     }
 
@@ -40,7 +51,6 @@ public class BounceBall_Ball : MonoBehaviour
             BounceBall_GameManager.Instance.SetScore(true);
 
             IsPlayerWin = true;
-            IsSetActive = false;//ERROR
         }
         
         if(collision.transform.name == "BotGainPoint")
@@ -48,12 +58,17 @@ public class BounceBall_Ball : MonoBehaviour
             BounceBall_GameManager.Instance.SetScore(false);
 
             IsPlayerWin = false;
-            IsSetActive = false;//ERROR
         }
+        BounceBall_GameManager.Instance.OnSetScore();
     }
 
     private void AddVelocityWhenCollision(Vector2 VelocityDirection)
     {
-        rb.velocity = VelocityDirection * 10;
+        Rb2D.velocity = VelocityDirection * 10;
+    }
+
+    private void OnEndTurn()
+    {
+        IsSetActive = false;
     }
 }

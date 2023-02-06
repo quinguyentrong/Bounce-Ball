@@ -11,8 +11,8 @@ public class BounceBall_SpawnBall : MonoBehaviour
 
     private void Start()
     {
-        BounceBall_GameManager.Instance.OnNewGame += OnNewGame;
-        BounceBall_GameManager.Instance.OnPauseGame += OnPauseGame;
+        BounceBall_GameManager.Instance.OnNewTurn += OnNewTurn;
+        BounceBall_GameManager.Instance.OnEndTurn += OnEndTurn;
         
         for (int i = 0; i < AmountPool; i++)
         {
@@ -24,8 +24,8 @@ public class BounceBall_SpawnBall : MonoBehaviour
 
     private void OnDestroy()
     {
-        BounceBall_GameManager.Instance.OnNewGame -= OnNewGame;
-        BounceBall_GameManager.Instance.OnPauseGame -= OnPauseGame;
+        BounceBall_GameManager.Instance.OnNewTurn -= OnNewTurn;
+        BounceBall_GameManager.Instance.OnEndTurn -= OnEndTurn;
     }
 
     private GameObject GetObjPooling()
@@ -56,14 +56,14 @@ public class BounceBall_SpawnBall : MonoBehaviour
         Instantiate();
     }
 
-    private void OnNewGame()
+    private void OnNewTurn()
     {
         StartCoroutine(InstantiateBall(0));
         StartCoroutine(InstantiateBall(10f));
         StartCoroutine(InstantiateBall(20f));
     }
 
-    private void OnPauseGame()
+    private void OnEndTurn()
     {
         StopAllCoroutines();
 
