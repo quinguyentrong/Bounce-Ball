@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BounceBall_Player : MonoBehaviour
+public class BounceBall_Red : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer SelfSpriteRenderer;
-    private Vector3 MousePos;
 
     private void Start()
     {
         BounceBall_GameManager.Instance.OnNewTurn += OnNewTurn;
         BounceBall_GameManager.Instance.OnEndTurn += OnEndTurn;
 
-        TouchController.Instance.OnTouching_RedSide += MovePlayer;
+        TouchController.Instance.OnTouching_RedSide += MoveRed;
     }
 
     private void OnDestroy()
@@ -20,13 +19,12 @@ public class BounceBall_Player : MonoBehaviour
         BounceBall_GameManager.Instance.OnNewTurn -= OnNewTurn;
         BounceBall_GameManager.Instance.OnEndTurn -= OnEndTurn;
 
-        TouchController.Instance.OnTouching_RedSide -= MovePlayer;
+        TouchController.Instance.OnTouching_RedSide -= MoveRed;
     }
 
-    private void MovePlayer(Vector2 touchPos)
+    private void MoveRed(Vector2 touchPos)
     {
-        //MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        transform.position = new Vector3(touchPos.x, -4.6f, 0);
+        transform.position = new Vector3(touchPos.x, -4f, 0);
     }
 
     private void OnNewTurn()

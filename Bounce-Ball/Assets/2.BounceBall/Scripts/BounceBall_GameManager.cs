@@ -9,9 +9,10 @@ public class BounceBall_GameManager : MonoBehaviour
     public Action OnSetScore;
     public Action OnNewTurn;
     public Action OnEndTurn;
+    public Action OnPVPMode;
 
-    private int PlayerScores = 0;
-    private int BotScores = 0;
+    private int RedScores = 0;
+    private int BlueScores = 0;
 
     private void Awake()
     {
@@ -35,28 +36,28 @@ public class BounceBall_GameManager : MonoBehaviour
         CustomEventManager.Instance.OnNewGame -= StartGame;
     }
 
-    public void SetScore(bool isPlayerWin)
+    public void SetScore(bool isRedWin)
     {
-        if (isPlayerWin)
+        if (isRedWin) 
         {
-            PlayerScores++;
+            RedScores++;
         }
         else
         {
-            BotScores++;
+            BlueScores++;
         }
 
         EndTurn();
-        CustomEventManager.Instance.OnSetScore(new Vector2Int(PlayerScores, BotScores));
+        CustomEventManager.Instance.OnSetScore(new Vector2Int(RedScores, BlueScores));
 
 
-        if (PlayerScores == 7)
+        if (RedScores == 7)
         {
             CustomEventManager.Instance.OnGameOver(true);
             return;
         }
         
-        if (BotScores == 7)
+        if (BlueScores == 7)
         {
             CustomEventManager.Instance.OnGameOver(false);
             return;

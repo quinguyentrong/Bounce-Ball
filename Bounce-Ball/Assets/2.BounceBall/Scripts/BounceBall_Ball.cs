@@ -6,7 +6,7 @@ public class BounceBall_Ball : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D Rb2D;
     
-    private bool IsPlayerWin = false;
+    private bool IsRedWin = false;
     private bool IsSetActive = false;
 
     private void Start()
@@ -26,7 +26,7 @@ public class BounceBall_Ball : MonoBehaviour
         IsSetActive = true;
 
 
-        if (IsPlayerWin)
+        if (IsRedWin)
         {
             Rb2D.velocity = new Vector3(0, 10f);
         }
@@ -38,7 +38,7 @@ public class BounceBall_Ball : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.transform.name == "Player" || collision.transform.name == "Bot")
+        if (collision.transform.name == "Red" || collision.transform.name == "Blue")
         {
             AddVelocityWhenCollision(((Vector2)transform.position - (Vector2)collision.transform.position).normalized);
         }
@@ -50,14 +50,14 @@ public class BounceBall_Ball : MonoBehaviour
         {
             BounceBall_GameManager.Instance.SetScore(true);
 
-            IsPlayerWin = true;
+            IsRedWin = true;
         }
         
         if(collision.transform.name == "BotGainPoint")
         {
             BounceBall_GameManager.Instance.SetScore(false);
 
-            IsPlayerWin = false;
+            IsRedWin = false;
         }
     }
 
