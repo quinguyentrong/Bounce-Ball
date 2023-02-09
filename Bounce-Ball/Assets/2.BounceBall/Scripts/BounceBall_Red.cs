@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class BounceBall_Red : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer SelfSpriteRenderer;
-
+    #region BASE
     private void Start()
     {
         BounceBall_GameManager.Instance.OnNewTurn += OnNewTurn;
@@ -21,12 +20,9 @@ public class BounceBall_Red : MonoBehaviour
 
         TouchController.Instance.OnTouching_RedSide -= MoveRed;
     }
+    #endregion BASE
 
-    private void MoveRed(Vector2 touchPos)
-    {
-        transform.position = new Vector3(touchPos.x, -4f, 0);
-    }
-
+    #region GAME STATE
     private void OnNewTurn()
     {
         StartCoroutine(Scale(10f));
@@ -40,8 +36,19 @@ public class BounceBall_Red : MonoBehaviour
         StopAllCoroutines();
         SelfSpriteRenderer.size = new Vector2(3.48f, 0.8f);
     }
+    #endregion GAME STATE
 
-    private void ScaleGameObj()
+    #region MOVE
+    private void MoveRed(Vector2 touchPos)
+    {
+        transform.position = new Vector3(touchPos.x, -4f, 0);
+    }
+    #endregion MOVE
+
+    #region EFFECT
+    [SerializeField] private SpriteRenderer SelfSpriteRenderer;
+
+    private void ScaleGameObject()
     {
         SelfSpriteRenderer.size = new Vector2(SelfSpriteRenderer.size.x - 0.3f, SelfSpriteRenderer.size.y);
     }
@@ -49,6 +56,7 @@ public class BounceBall_Red : MonoBehaviour
     IEnumerator Scale(float seconds)
     {
         yield return new WaitForSeconds(seconds);
-        ScaleGameObj();
+        ScaleGameObject();
     }
+    #endregion EFFECT
 }

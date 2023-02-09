@@ -5,15 +5,24 @@ using System;
 
 public class BounceBall_GameManager : MonoBehaviour
 {
+    #region BASE
     public static BounceBall_GameManager Instance;
+    
     public Action OnSetScore;
     public Action OnNewTurn;
     public Action OnEndTurn;
-    public Action OnPVPMode;
 
-    private int RedScores = 0;
-    private int BlueScores = 0;
+    private void Start()
+    {
+        CustomEventManager.Instance.OnNewGame += StartGame;
+    }
+    private void OnDestroy()
+    {
+        CustomEventManager.Instance.OnNewGame -= StartGame;
+    }
+    #endregion BASE
 
+    #region GAME STATE
     private void Awake()
     {
         if (Instance == null)
@@ -25,51 +34,8 @@ public class BounceBall_GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
-    }
 
-    private void Start()
-    {
-        CustomEventManager.Instance.OnNewGame += StartGame;
-    }
-    private void OnDestroy()
-    {
-        CustomEventManager.Instance.OnNewGame -= StartGame;
-    }
-
-    public void SetScore(bool isRedWin)
-    {
-        if (isRedWin) 
-        {
-            RedScores++;
-        }
-        else
-        {
-            BlueScores++;
-        }
-
-        EndTurn();
-        CustomEventManager.Instance.OnSetScore(new Vector2Int(RedScores, BlueScores));
-
-
-        if (RedScores == 7)
-        {
-            CustomEventManager.Instance.OnGameOver(true);
-            return;
-        }
-        
-        if (BlueScores == 7)
-        {
-            CustomEventManager.Instance.OnGameOver(false);
-            return;
-        }
-
-        NewTurn();
-    }
-
-    private void StartGame()
-    {
-        CustomEventManager.Instance.OnSetScore(new Vector2Int(0, 0));
-        NewTurn();
+        Application.targetFrameRate = 60;
     }
 
     private void NewTurn()
@@ -87,4 +53,48 @@ public class BounceBall_GameManager : MonoBehaviour
         yield return new WaitForSeconds(seconds);
         OnNewTurn();
     }
+    #endregion GAME STATE
+
+    #region SET SCORE
+    private int RedScores = 0;
+    private int BlueScores = 0;
+    private int WinScores = 7;
+
+    public void SetScore(bool isRedWin)
+    {
+        if (isRedWin)
+        {
+            RedScores++;
+        }
+        else
+        {
+            BlueScores++;
+        }
+
+        EndTurn();
+
+        CustomEventManager.Instance.OnSetScore(new Vector2Int(RedScores, BlueScores));
+
+
+        if (RedScores == WinScores)
+        {
+            CustomEventManager.Instance.OnGameOver(true);
+            return;
+        }
+
+        if (BlueScores == WinScores)
+        {
+            CustomEventManager.Instance.OnGameOver(false);
+            return;
+        }
+
+        NewTurn();
+    }
+
+    private void StartGame()
+    {
+        CustomEventManager.Instance.OnSetScore(new Vector2Int(0, 0));
+        NewTurn();
+    }
+    #endregion SET SCORE
 }

@@ -807,7 +807,7 @@ GameObject:
   - component: {fileID: 468984315}
   - component: {fileID: 468984314}
   m_Layer: 0
-  m_Name: BotGainPoint
+  m_Name: BlueGainPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -935,8 +935,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b134b097a7d82174b895e82d3e7586de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Ball: {fileID: 490030960542428854, guid: 25700fd8616afbd40bd82810b929abea, type: 3}
-  ObjPooling: []
+  Ball: {fileID: 490030960542428843, guid: 25700fd8616afbd40bd82810b929abea, type: 3}
+  BallList: []
 --- !u!4 &502014312
 Transform:
   m_ObjectHideFlags: 0
@@ -1758,7 +1758,7 @@ GameObject:
   - component: {fileID: 1389410207}
   - component: {fileID: 1389410206}
   m_Layer: 0
-  m_Name: PlayerGainPoint
+  m_Name: RedGainPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -4,22 +4,11 @@ using UnityEngine;
 
 public class BounceBall_SpawnBall : MonoBehaviour
 {
-    [SerializeField] private GameObject Ball;
-    
-    public List<GameObject> ObjPooling = new List<GameObject>();
-    private int AmountPool = 3;
-
+    #region BASE
     private void Start()
     {
         BounceBall_GameManager.Instance.OnNewTurn += OnNewTurn;
         BounceBall_GameManager.Instance.OnEndTurn += OnEndTurn;
-        
-        for (int i = 0; i < AmountPool; i++)
-        {
-            GameObject obj = Instantiate(Ball);
-            obj.SetActive(false);
-            ObjPooling.Add(obj);
-        }
     }
 
     private void OnDestroy()
@@ -27,50 +16,40 @@ public class BounceBall_SpawnBall : MonoBehaviour
         BounceBall_GameManager.Instance.OnNewTurn -= OnNewTurn;
         BounceBall_GameManager.Instance.OnEndTurn -= OnEndTurn;
     }
+    #endregion BASE
 
-    private GameObject GetObjPooling()
-    {
-        for (int i = 0; i < ObjPooling.Count; i++)
-        {
-            if (ObjPooling[i].activeInHierarchy == false)
-            {
-                return ObjPooling[i];
-            }
-        }
-        return null;
-    }
-
-    private void Instantiate()
-    {
-        GameObject ball = GetObjPooling();
-
-        if (ball != null)
-        {
-            ball.transform.position = new Vector3(0, 0, transform.position.z);
-            ball.SetActive(true);
-        }
-    }
-    IEnumerator InstantiateBall(float seconds)
-    {
-        yield return new WaitForSeconds(seconds);
-        Instantiate();
-    }
-
+    #region GAME STATE
     private void OnNewTurn()
     {
-        StartCoroutine(InstantiateBall(0));
-        StartCoroutine(InstantiateBall(10f));
-        StartCoroutine(InstantiateBall(20f));
+        StartCoroutine(SpawnBall(0f));
+        StartCoroutine(SpawnBall(10f));
+        StartCoroutine(SpawnBall(20f));
     }
 
     private void OnEndTurn()
     {
         StopAllCoroutines();
-
-        for (int i = 0; i < ObjPooling.Count; i++)
+        for (int i = 0; i < BallList.Count; i++)
         {
-            ObjPooling[i].SetActive(false);
-            ObjPooling[i].transform.position = new Vector3(0, 0, 0);
+            PoolingSystem.Despawn(BallList[i]);
         }
     }
+    #endregion GAME STATE
+
+    #region SPAWN BALL
+    [SerializeField] private BounceBall_Ball Ball;
+    public List<GameObject> BallList = new List<GameObject>();
+
+    IEnumerator SpawnBall(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        SpawnGameObject();
+    }
+
+    private void SpawnGameObject()
+    {
+        var ball = PoolingSystem.Spawn(Ball);
+        BallList.Add(ball.gameObject);
+    }
+    #endregion SPAWN BALL
 }
