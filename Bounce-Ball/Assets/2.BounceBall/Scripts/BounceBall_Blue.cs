@@ -92,11 +92,12 @@ public class BounceBall_Blue : MonoBehaviour
 
         for (int i = 0; i < SpawnBall.BallList.Count; i++)
         {
-            if (temp < SpawnBall.BallList[i].transform.position.y)
+            if (temp < SpawnBall.BallList[i].transform.position.y && SpawnBall.BallList[i].activeSelf == true)
             {
                 temp = SpawnBall.BallList[i].transform.position.y;
 
                 TargerX = SpawnBall.BallList[i].transform.position.x;
+                Debug.Log($"{TargerX}");
             }
         }
     }
