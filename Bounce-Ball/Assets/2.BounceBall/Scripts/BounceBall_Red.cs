@@ -34,7 +34,7 @@ public class BounceBall_Red : MonoBehaviour
     private void OnEndTurn()
     {
         StopAllCoroutines();
-        SelfSpriteRenderer.size = new Vector2(3.48f, 0.8f);
+        SelfSpriteRenderer.size = new Vector2(1.81f, 0.42f);
     }
     #endregion GAME STATE
 
@@ -50,7 +50,7 @@ public class BounceBall_Red : MonoBehaviour
 
     private void ScaleGameObject()
     {
-        SelfSpriteRenderer.size = new Vector2(SelfSpriteRenderer.size.x - 0.3f, SelfSpriteRenderer.size.y);
+        SelfSpriteRenderer.size = new Vector2(SelfSpriteRenderer.size.x - 0.1f, SelfSpriteRenderer.size.y);
     }
 
     IEnumerator Scale(float seconds)

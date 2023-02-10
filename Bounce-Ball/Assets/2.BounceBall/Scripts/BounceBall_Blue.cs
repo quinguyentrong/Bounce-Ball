@@ -43,7 +43,7 @@ public class BounceBall_Blue : MonoBehaviour
     {
         IsNewTurn = false;
         StopAllCoroutines();
-        SelfSpriteRenderer.size = new Vector2(3.48f, 0.8f);
+        SelfSpriteRenderer.size = new Vector2(1.81f, 0.42f);
     }
     #endregion GAME STATE
 
@@ -59,7 +59,7 @@ public class BounceBall_Blue : MonoBehaviour
 
     private void ScaleGameObject()
     {
-        SelfSpriteRenderer.size = new Vector2(SelfSpriteRenderer.size.x - 0.3f, SelfSpriteRenderer.size.y);
+        SelfSpriteRenderer.size = new Vector2(SelfSpriteRenderer.size.x - 0.1f, SelfSpriteRenderer.size.y);
     }
 
     IEnumerator Scale(float seconds)
@@ -97,7 +97,6 @@ public class BounceBall_Blue : MonoBehaviour
                 temp = SpawnBall.BallList[i].transform.position.y;
 
                 TargerX = SpawnBall.BallList[i].transform.position.x;
-                Debug.Log($"{TargerX}");
             }
         }
     }
